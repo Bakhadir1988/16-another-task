@@ -15,10 +15,16 @@ const todo = {
     this.tasks = this.tasks.filter((task) => task.id !== id);
   },
 
-  updateTask: function (id, name, order) {
-    const update = this.tasks.find((task) => task.id === id);
-    update.name = name;
-    update.order = order;
+  updateTask: function (id, props) {
+    this.tasks = this.tasks.map((task) =>
+      task.id === id
+        ? {
+            name: props.name,
+            description: props.description,
+            order: props.order,
+          }
+        : task
+    );
   },
 
   sortTasks: function () {
@@ -38,6 +44,39 @@ const newTask = {
 };
 
 const addNewTasks = todo.addTask.bind(newTask);
-addNewTasks({ id: 2, name: "новая задача", description: "описание", order: 2 });
+addNewTasks({ id: 2, name: "Новая задача", description: "описание", order: 2 });
 
-console.log(newTask.tasks);
+console.log('newTask', newTask.tasks);
+
+todo.addTask({
+  id: 1,
+  name: "Новая задача 1",
+  description: "описание 1",
+  order: 1,
+});
+
+todo.addTask({
+  id: 2,
+  name: "Новая задача 2",
+  description: "описание 2",
+  order: 2,
+});
+
+todo.addTask({
+  id: 3,
+  name: "Новая задача 3",
+  description: "описание 3",
+  order: 3,
+});
+
+todo.removeTask(2);
+
+todo.updateTask(1, {
+  name: "Измененное название",
+  description: "Измененное описание",
+  order: 4,
+});
+
+todo.sortTasks();
+
+console.log('todo', todo.tasks);
